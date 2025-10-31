@@ -6,23 +6,25 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
 
-# Install Poetry
+# Устанавливает Poetry
 RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="/root/.local/bin:$PATH"
 
 WORKDIR /app
 
-# Copy only dependency files first for better layer caching
+COPY pyproject.toml README.md ./
+
 COPY pyproject.toml .
 # Copy lock file if exists
-COPY poetry.lock* . 2>/dev/null || true
+RUN test -f poetry.lock && cp poetry.lock . || true
 
-RUN poetry install --no-interaction --no-ansi
+# Install deps without installing the current project (source not yet copied)
+RUN poetry install --no-interaction --no-ansi --no-root
 
-# Copy project
+# Копируем проект
 COPY . .
 
-# Entrypoint script
+
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
