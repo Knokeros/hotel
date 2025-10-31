@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    container_name: hotel-web
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./db.sqlite3:/app/db.sqlite3
+      - ./.ruff.toml:/app/.ruff.toml:ro
+      - ./hotel:/app/hotel
+      - ./booking:/app/booking
+      - ./tests:/app/tests
+      - ./pyproject.toml:/app/pyproject.toml
+      - ./docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
+    environment:
+      - DJANGO_SETTINGS_MODULE=hotel.settings
+    restart: unless-stopped
