@@ -15,6 +15,7 @@ djangorestframework = "^3.16"
 ruff = "^0.6.9"
 pytest = "^8.3"
 pytest-django = "^4.9"
+pre-commit = "^4.0"
 
 [tool.pytest.ini_options]
 django_find_project = true

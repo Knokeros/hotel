@@ -118,7 +118,7 @@ poetry run pytest
 docker compose up --build
 ```
 
-Сервис будет доступен на `http://localhost:8000`.
+Сервис будет доступен на `http://0.0.0.0:8000`.
 
 Данные SQLite сохраняются через volume, монтируемый в `./db.sqlite3`.
 
@@ -126,3 +126,19 @@ docker compose up --build
 ```bash
 docker compose exec web poetry run pytest
 ```
+
+## pre-commit
+
+Установить хуки локально:
+```bash
+poetry run pre-commit install
+```
+
+Запустить проверки вручную по всему репозиторию:
+```bash
+poetry run pre-commit run --all-files
+```
+
+## CI (GitHub Actions)
+
+Workflow `CI` автоматически запускает Ruff и pytest на пуш/PR в ветки `main`/`master`. 
