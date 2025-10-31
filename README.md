@@ -108,3 +108,21 @@ poetry run ruff format .
 poetry install
 poetry run pytest
 ```
+
+Тесты лежат в каталоге `tests/` и используют `pytest-django`.
+
+## Запуск в Docker
+
+Сборка и запуск:
+```bash
+docker compose up --build
+```
+
+Сервис будет доступен на `http://localhost:8000`.
+
+Данные SQLite сохраняются через volume, монтируемый в `./db.sqlite3`.
+
+Запуск тестов внутри контейнера:
+```bash
+docker compose exec web poetry run pytest
+```
