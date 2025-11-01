@@ -1,11 +1,13 @@
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Можно убрать в .env
-SECRET_KEY = (
-    "django-insecure-7j!u%qp_j9e^a3d6k7s%0bb*%fbm-kj7ym%k!9toiymq4n!bt3"
-)
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 
 DEBUG = True

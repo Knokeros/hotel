@@ -10,6 +10,7 @@ packages = [{ include = "hotel" }, { include = "booking" }]
 python = ">=3.11,<4.0"
 Django = "^5.2"
 djangorestframework = "^3.16"
+python-dotenv = "^1.2.1"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.6.9"
