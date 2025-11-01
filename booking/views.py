@@ -51,17 +51,18 @@ def create_booking(request):
         room_id = int(data.get("room_id"))
         date_start = parse_date(data.get("date_start"))
         date_end = parse_date(data.get("date_end"))
+        # Проверка валидации даты
         if not (date_start and date_end):
             return Response({"error": "Invalid date format"}, status=400)
         if date_start > date_end:
             return Response(
                 {"error": "Start date must not be after end date"}, status=400
             )
-        # Check room exists
+        # Проверка номера
         room = Room.objects.filter(id=room_id).first()
         if not room:
             return Response({"error": "Room not found"}, status=404)
-        # Check booking overlap
+        # Проверка на бронь
         overlap = Booking.objects.filter(
             room_id=room_id, date_start__lte=date_end, date_end__gte=date_start
         ).exists()
@@ -80,6 +81,7 @@ def create_booking(request):
 @api_view(["DELETE"])
 def delete_booking(request, booking_id):
     booking = Booking.objects.filter(id=booking_id).first()
+    # Проверка на бронь
     if not booking:
         return Response({"error": "Booking not found"}, status=404)
     booking.delete()
