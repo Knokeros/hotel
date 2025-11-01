@@ -53,3 +53,4 @@ jobs:
           DJANGO_SETTINGS_MODULE: hotel.settings
         run: |
           poetry run pytest
+

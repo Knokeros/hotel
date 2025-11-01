@@ -5,15 +5,20 @@
 ## Запуск
 
 1. Установите Poetry (если не установлен): https://python-poetry.org/docs/
-2. Установите зависимости:
+2. Создайте `.env` файл (опционально, для production):
+    ```bash
+    cp .env .env
+    ```
+   Примечание: Если `.env` отсутствует, будет использовано значение по умолчанию для разработки.
+3. Установите зависимости:
     ```bash
     poetry install
     ```
-3. Примените миграции:
+4. Примените миграции:
     ```bash
     poetry run python manage.py migrate
     ```
-4. Запустите сервер:
+5. Запустите сервер:
     ```bash
     poetry run python manage.py runserver localhost:8000
     ```
@@ -46,7 +51,7 @@
 Ответ:
 ```json
 [
-  {"id": 1, "description": "Люкс", "price": 3000, "created_at": "2024-07-01T12:34:00Z"}, ...
+  {"id": 1, "description": "Люкс", "price": 3000, "created_at": "2024-07-01T12:34:00Z"},
 ]
 ```
 
@@ -141,4 +146,4 @@ poetry run pre-commit run --all-files
 
 ## CI (GitHub Actions)
 
-Workflow `CI` автоматически запускает Ruff и pytest на пуш/PR в ветки `main`/`master`. 
+Workflow `CI` автоматически запускает Ruff и pytest на пуш/PR в ветки `main`/`master`.
