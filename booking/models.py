@@ -9,6 +9,7 @@ class Room(models.Model):
 
 class Booking(models.Model):
     room = models.ForeignKey(
-        Room, on_delete=models.CASCADE, related_name="bookings")
+        Room, on_delete=models.CASCADE, related_name="bookings"
+    )
     date_start = models.DateField()
     date_end = models.DateField()

@@ -15,9 +15,8 @@ def create_room(request):
         room = serializer.save()
         return Response({"room_id": room.id})
     return Response(
-        {"error": serializer.errors},
-        status=status.HTTP_400_BAD_REQUEST
-        )
+        {"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST
+    )
 
 
 @api_view(["DELETE"])
@@ -56,7 +55,8 @@ def create_booking(request):
             return Response({"error": "Invalid date format"}, status=400)
         if date_start > date_end:
             return Response(
-                {"error": "Start date must not be after end date"}, status=400)
+                {"error": "Start date must not be after end date"}, status=400
+            )
         # Check room exists
         room = Room.objects.filter(id=room_id).first()
         if not room:
@@ -67,9 +67,11 @@ def create_booking(request):
         ).exists()
         if overlap:
             return Response(
-                {"error": "Room already booked for these dates"}, status=409)
+                {"error": "Room already booked for these dates"}, status=409
+            )
         booking = Booking.objects.create(
-            room=room, date_start=date_start, date_end=date_end)
+            room=room, date_start=date_start, date_end=date_end
+        )
         return Response({"booking_id": booking.id})
     except Exception as e:
         return Response({"error": str(e)}, status=400)
