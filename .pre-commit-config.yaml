@@ -13,7 +13,6 @@ repos:
     hooks:
       - id: ruff-format
         args: ["--fix"]
-        
+
       - id: ruff
         args: ["--fix"]
-
