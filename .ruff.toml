@@ -1,0 +1,29 @@
+line-length = 79
+indent-width = 4
+target-version = "py313"
+
+[lint]
+select = [
+    "E",  # pycodestyle
+    "F",  # pyflakes
+    "I",  # isort
+    "UP", # pyupgrade
+    "B",  # bugbear
+    "SIM",# simplify
+    "PL", # pylint-like
+    "PERF" # performance
+]
+ignore = [
+]
+
+[format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+[lint.isort]
+known-first-party = ["hotel", "booking"]
+combine-as-imports = true
+
+[lint.per-file-ignores]
+"booking/migrations/*" = ["E501"]
