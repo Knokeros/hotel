@@ -5,7 +5,9 @@ from django.urls import reverse
 STATUS_CODE_CREATED = 201
 STATUS_CODE_SUCCESS = 200
 STATUS_CODE_BAD_REQUEST = 400
+STATUS_CODE_NOT_FOUND = 404
 LEN_DATA = 2
+ROOMS_COUNT = 3
 
 
 @pytest.mark.django_db
@@ -91,7 +93,7 @@ class TestRooms:
     def test_delete_nonexistent_room(self) -> None:
         client = Client()
         resp = client.delete(reverse("delete_room", args=[99999]))
-        assert resp.status_code == 404
+        assert resp.status_code == STATUS_CODE_NOT_FOUND
         assert "error" in resp.json()
 
 
@@ -193,7 +195,7 @@ class TestBookings:
 
     def test_delete_nonexistent_booking(self) -> None:
         resp = self.client.delete(reverse("delete_booking", args=[99999]))
-        assert resp.status_code == 404
+        assert resp.status_code == STATUS_CODE_NOT_FOUND
         assert "error" in resp.json()
 
     def test_list_bookings_without_room_id(self) -> None:
@@ -260,7 +262,7 @@ class TestRoomSorting:
         resp = client.get(reverse("list_rooms"))
         assert resp.status_code == STATUS_CODE_SUCCESS
         data = resp.json()
-        assert len(data) == 3
+        assert len(data) == ROOMS_COUNT
 
         # Невалидный параметр сортировки
         resp = client.get(reverse("list_rooms"), {"sort_by": "invalid_field"})
