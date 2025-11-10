@@ -1,6 +1,7 @@
 from django.utils.dateparse import parse_date
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.request import Request
 from rest_framework.response import Response
 
 from .models import Booking, Room
@@ -9,7 +10,7 @@ from .serializers import BookingSerializer, RoomSerializer
 
 # ROOM ENDPOINTS
 @api_view(["POST"])
-def create_room(request):
+def create_room(request: Request) -> Response:
     serializer = RoomSerializer(data=request.data)
     if serializer.is_valid():
         room = serializer.save()
@@ -20,7 +21,7 @@ def create_room(request):
 
 
 @api_view(["DELETE"])
-def delete_room(request, room_id):
+def delete_room(request: Request, room_id: int) -> Response:
     room = Room.objects.filter(id=room_id).first()
     if not room:
         return Response({"error": "Room not found"}, status=404)
@@ -29,7 +30,7 @@ def delete_room(request, room_id):
 
 
 @api_view(["GET"])
-def list_rooms(request):
+def list_rooms(request: Request) -> Response:
     sort_by = request.GET.get("sort_by", "created_at")
     order = request.GET.get("order", "asc")
     allowed_sort = {"price", "created_at"}
@@ -45,7 +46,7 @@ def list_rooms(request):
 
 # BOOKING ENDPOINTS
 @api_view(["POST"])
-def create_booking(request):
+def create_booking(request: Request) -> Response:
     data = request.data.copy()
     try:
         room_id = int(data.get("room_id"))
@@ -79,7 +80,7 @@ def create_booking(request):
 
 
 @api_view(["DELETE"])
-def delete_booking(request, booking_id):
+def delete_booking(request: Request, booking_id: int) -> Response:
     booking = Booking.objects.filter(id=booking_id).first()
     # Проверка на бронь
     if not booking:
@@ -89,7 +90,7 @@ def delete_booking(request, booking_id):
 
 
 @api_view(["GET"])
-def list_bookings(request):
+def list_bookings(request: Request) -> Response:
     room_id = request.GET.get("room_id")
     if not room_id:
         return Response({"error": "room_id is required"}, status=400)

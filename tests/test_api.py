@@ -8,7 +8,7 @@ LEN_DATA = 2
 
 @pytest.mark.django_db
 class TestRooms:
-    def test_create_and_list_rooms(self):
+    def test_create_and_list_rooms(self) -> None:
         client = Client()
         # Create rooms
         resp = client.post(
@@ -36,7 +36,7 @@ class TestRooms:
         assert isinstance(data, list) and len(data) == LEN_DATA
         assert data[0]["price"] >= data[1]["price"]
 
-    def test_delete_room(self):
+    def test_delete_room(self) -> None:
         client = Client()
         resp = client.post(
             reverse("create_room"),
@@ -51,7 +51,7 @@ class TestRooms:
 
 @pytest.mark.django_db
 class TestBookings:
-    def setup_method(self):
+    def setup_method(self) -> None:
         self.client = Client()
         r = self.client.post(
             reverse("create_room"),
@@ -60,7 +60,7 @@ class TestBookings:
         )
         self.room_id = r.json()["room_id"]
 
-    def test_create_and_list_bookings(self):
+    def test_create_and_list_bookings(self) -> None:
         resp = self.client.post(
             reverse("create_booking"),
             data={
@@ -82,7 +82,7 @@ class TestBookings:
         assert len(data) == 1
         assert data[0]["date_start"] == "2024-12-01"
 
-    def test_booking_overlap_rejected(self):
+    def test_booking_overlap_rejected(self) -> None:
         # First booking
         self.client.post(
             reverse("create_booking"),
@@ -106,7 +106,7 @@ class TestBookings:
         assert resp.status_code in (400, 409)
         assert "error" in resp.json()
 
-    def test_delete_booking(self):
+    def test_delete_booking(self) -> None:
         resp = self.client.post(
             reverse("create_booking"),
             data={
